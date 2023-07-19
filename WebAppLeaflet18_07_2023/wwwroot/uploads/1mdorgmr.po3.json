@@ -1,0 +1,12 @@
+{
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Futball Stadium",
+        "popupContent": "Fenerbahce is the champion!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [29.03695, 40.98762]
+    }
+}
