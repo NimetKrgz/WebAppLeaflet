@@ -3,9 +3,12 @@
 
 // Write your JavaScript code.
 
-var map = L.map('map', {
-    crs: L.CRS.EPSG4326
-}).setView([41.0260155, 28.8867775], 15);
+var map = L.map('map').setView([41.0260155, 28.8867775], 15);
+
+//var map = L.map('map', {
+//    crs: L.CRS.EPSG3857
+//}).setView([41.0260155, 28.8867775], 15);
+
 
 //var wmsLayer = L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
 //    layers: 'TOPO-OSM-WMS'
@@ -29,9 +32,9 @@ var basemaps = {
     })
 };
 
-L.control.layers(basemaps).addTo(map);
+//L.control.layers(basemaps).addTo(map);
 
-basemaps.Topography.addTo(map);
+//basemaps.Topography.addTo(map);
 
 var circle = L.circle([40.968665, 29.0985458], {
     color: '#006d2c',
@@ -99,6 +102,26 @@ var latlngs1 = [
         [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
     ]
 ];
+
+var latlngs3 = [
+    [[37, -109], [41, -109], [41, -102], [37, -102]], // outer ring
+    [[37.29, -108], [40.71, -108], [40.71, -102], [37.29, -102]] // hole
+];
+//var layer = L.Polygon(latlngs3).bindTooltip('Hi There!').addTo(map);
+//layer.openTooltip();
+//layer.closeTooltip();
+
+//var imageUrl = 'https://maps.lib.utexas.edu/maps/historical/newark_nj_1922.jpg';
+//var errorOverlayUrl = 'https://cdn-icons-png.flaticon.com/512/110/110686.png';
+//var altText = 'Image of Newark, N.J. in 1922. Source: The University of Texas at Austin, UT Libraries Map Collection.';
+//var latLngBounds = L.latLngBounds([[40.799311, -74.118464], [40.68202047785919, -74.33]]);
+
+//var imageOverlay = L.imageOverlay(imageUrl, latLngBounds, {
+//    opacity: 0.8,
+//    errorOverlayUrl: errorOverlayUrl,
+//    alt: altText,
+//    interactive: true
+//}).addTo(map);
 
 var polyline = L.polyline(latlngs1, { color: 'pink' }).addTo(map);
 
@@ -171,19 +194,19 @@ var greenIcon = L.icon({
 });
 L.marker([40.9690162, 29.0965164], { icon: greenIcon }).addTo(map).bindPopup("Hey! I am coding. Are you coding too? &#128526");
 
-// Adding point as geojson. Warning geojson using lon,lat format!
-//var geojsonFeature = {
-//    "type": "Feature",
-//    "properties": {
-//        "name": "Coors Field",
-//        "amenity": "Futball Stadium",
-//        "popupContent": "Fenerbahce is the champion!"
-//    },
-//    "geometry": {
-//        "type": "Point",
-//        "coordinates": [29.03695, 40.98762]
-//    }
-//};
+ //Adding point as geojson. Warning geojson using lon,lat format!
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Futball Stadium",
+        "popupContent": "Fenerbahce is the champion!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [29.03695, 40.98762]
+    }
+};
 
 L.geoJSON(geojsonFeature).bindPopup(function (layer) {
     return layer.feature.properties.popupContent;
@@ -249,9 +272,67 @@ function addMarker() {
     }
 }
 
-var fenerData = "wwwroot/uploads/rl5j2vou.2p1.json";
+// Create a Leaflet marker with a tooltip
+var marker_ev = L.marker([40.861734, 29.338181]).addTo(map);
+marker_ev.bindTooltip("This is a marker tooltip.");
 
-fetch(fenerData)
+var markerWithOptions = L.marker([41.0063234, 28.9793414]).addTo(map);
+markerWithOptions.bindTooltip("Blue Mosque", {
+    permanent: false, // Tooltip will be shown permanently instead of on hover.
+    direction: "top", // Position of the tooltip relative to the marker.
+    offset: [0, -20], // Offset the tooltip from the marker position.
+});
+
+var fullScreenButton = document.getElementById('fullscreenButton');
+var mapContainer = document.getElementById('map');
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        // Enter full-screen
+        if (mapContainer.requestFullscreen) {
+            mapContainer.requestFullscreen();
+        } else if (mapContainer.mozRequestFullScreen) {
+            mapContainer.mozRequestFullScreen();
+        } else if (mapContainer.webkitRequestFullscreen) {
+            mapContainer.webkitRequestFullScreen();
+        } else if (mapContaier.msRequestFullscreen) {
+            mapContainer.msRequestFullScreen();
+        }
+    } else {
+        // Exit full-screen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozRequestFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
+}
+
+var fullScreenControl = L.control({ position: 'topright' });
+
+fullScreenControl.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'leaflet-control leaflet-bar');
+    var button = L.DomUtil.create('button', '', div);
+
+    button.innerHTML = 'Toggle Full Screen';
+    button.title = 'Toggle Full-Screen';
+    button.addEventListener('click', toggleFullScreen);
+
+    return div;
+}
+
+fullScreenControl.addTo(map);
+
+//fullscreenButton.addEventListener('click', toggleFullScreen);
+
+var fenerData = "wwwroot/uploads/rl5j2vou.2p1.json";
+var geofener = JSON.parse(fenerData);
+
+fetch(geofener)
     .then(response => response.json())
     .then(data => {
         L.geoJSON(data).addTo(map);
@@ -259,4 +340,6 @@ fetch(fenerData)
     .catch(error => {
         console.error('Error fetching or parsing GeoJSON file:', error);
     })
+
+
 
