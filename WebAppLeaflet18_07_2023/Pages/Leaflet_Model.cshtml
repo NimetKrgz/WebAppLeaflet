@@ -14,28 +14,41 @@
 <head>
 	<title>Leaflet Essentials</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
 	<script src="https://kit.fontawesome.com/ab974c8552.js" crossorigin="anonymous"></script>
 	@*<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>*@
 
-	<script>
-		var bbox = turf.bbox(features);
-	</script>
-	<style>
-		#map {
-			height: 100vh;
-			width: 100%;
-		}
-		/* Style the full-screen button */
-		#fullscreenButton {
-			position: absolute;
-			top: 10px;
-			right: 10px;
-		}
-	</style>
 </head>
 
 <body>
+	<div id="map">
+		<button type="button" id="showCheckboxesBtn" class="btn btn-primary panel panel-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="toggleLayerVisibility()">
+				Layers
+			</button>
+			<div class="btn-group">
+				<div class="dropdown-menu" aria-labelledby="showCheckboxesBtn" id="checkboxContainer">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="mahalleCheckbox" checked />
+						<label class="form-check-label" for="mahalleCheckbox"> Mahalle </label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="numaratajCheckbox" checked />
+						<label class="form-check-label" for="numaratajCheckbox"> Numarataj </label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="parselCheckbox" checked />
+						<label class="form-check-label" for="parselCheckbox"> Parsel </label>
+					</div>
+				</div>
+			</div>
+	</div>
+
+	
+
+
+@*	
 	<i class="fa-solid fa-user"></i>
 	<div>
 		<h5>LeafletMap Add Coordinate</h5>
@@ -67,18 +80,19 @@
 			 </form>
 		 </div>
 
+
 	</div>
+
 	<div>
 		<button class="bg-primary" id="btn-edit">
 			Add
 		</button>
-	</div>
+	</div>*@
 	<br>
 	@*<button id="fullscreenButton">Toggle Full-Screen</button>*@
 
-	<div id="map"></div>
+	
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-	<script src="~/js/site.js">
-	</script>
+	<script src="~/js/site.js"></script>
 
 </body>

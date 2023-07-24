@@ -342,21 +342,57 @@ fullScreenControl.addTo(map);
 //    })
 
 
+var layerVisibility = L.control({ position: 'topright' });
+function toggleLayerVisibility(layer, checkbox) {
+    if (checkbox.checked) {
+        map.addLayer(layer);
+    } else {
+        map.removeLayer(layer);
+    }
+}
 
-var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+var mahalleLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
     layers: 'kbs:mahalle',
     format: 'image/png',
     transparent: true
-}).addTo(map);
+});
 
-var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+var numaratajLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
     layers: 'kbs:numarataj',
     format: 'image/png',
     transparent: true
-}).addTo(map);
+});
 
-var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+var parselLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
     layers: 'kbs:parsel',
     format: 'image/png',
     transparent: true
-}).addTo(map);
+});
+
+mahalleLayer.addTo(map);
+numaratajLayer.addTo(map);
+parselLayer.addTo(map);
+
+function toggleCheckboxes() {
+    var checkboxContainer = document.getElementById('checkboxContainer');
+    checkboxContainer.style.display = checkboxContainer.style.display === 'none' ? 'block' : 'none';
+}
+
+var showCheckboxesBtn = document.getElementById('showCheckboxesBtn');
+showCheckboxesBtn.addEventListener('click', toggleCheckboxes);
+
+var mahalleCheckbox = document.getElementById('mahalleCheckbox');
+var numaratajCheckbox = document.getElementById('numaratajCheckbox');
+var parselCheckbox = document.getElementById('parselCheckbox');
+
+mahalleCheckbox.addEventListener('change', function () {
+    toggleLayerVisibility(mahalleLayer, this);
+})
+
+numaratajCheckbox.addEventListener('change', function () {
+    toggleLayerVisibility(numaratajLayer, this);
+})
+
+parselCheckbox.addEventListener('change', function () {
+    toggleLayerVisibility(parselLayer, this);
+})

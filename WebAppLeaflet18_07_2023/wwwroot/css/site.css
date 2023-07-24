@@ -1,8 +1,8 @@
-html {
+/*html {
   font-size: 14px;
-}
+}*/
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   html {
     font-size: 16px;
   }
@@ -11,8 +11,38 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  margin: 0;
+  padding:0;
+}
+*/
+/*body {
+    margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+}*/
+#map {
+    float: left;
+    width: 100%;
+    height: 100vh;
+    transition: width 0.3s ease;
 }
 
-body {
-  margin-bottom: 60px;
+#showCheckboxesBtn {
+    top: 50000px;
+    z-index: 10000;
+}
+
+/* Style the full-screen button */
+#fullscreenButton {
+    position: absolute;
+    top: 10px;
+    right: 1000px;
+}
+
+#refreshButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    z-index: 400;
 }
