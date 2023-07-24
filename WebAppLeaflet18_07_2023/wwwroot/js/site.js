@@ -329,17 +329,34 @@ fullScreenControl.addTo(map);
 
 //fullscreenButton.addEventListener('click', toggleFullScreen);
 
-var fenerData = "wwwroot/uploads/rl5j2vou.2p1.json";
-var geofener = JSON.parse(fenerData);
+//var fenerData = "wwwroot/uploads/rl5j2vou.2p1.json";
+//var geofener = JSON.parse(fenerData);
 
-fetch(geofener)
-    .then(response => response.json())
-    .then(data => {
-        L.geoJSON(data).addTo(map);
-    })
-    .catch(error => {
-        console.error('Error fetching or parsing GeoJSON file:', error);
-    })
+//fetch(geofener)
+//    .then(response => response.json())
+//    .then(data => {
+//        L.geoJSON(data).addTo(map);
+//    })
+//    .catch(error => {
+//        console.error('Error fetching or parsing GeoJSON file:', error);
+//    })
 
 
 
+var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+    layers: 'kbs:mahalle',
+    format: 'image/png',
+    transparent: true
+}).addTo(map);
+
+var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+    layers: 'kbs:numarataj',
+    format: 'image/png',
+    transparent: true
+}).addTo(map);
+
+var baseLayer = L.tileLayer.wms('http://localhost:8080/geoserver/kbs/wms', {
+    layers: 'kbs:parsel',
+    format: 'image/png',
+    transparent: true
+}).addTo(map);

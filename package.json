@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@turf/buffer": "^6.5.0",
+    "@turf/collect": "^6.5.0"
+  }
+}
